@@ -255,7 +255,7 @@ RectTransform:
   m_Children:
   - {fileID: 715293441}
   m_Father: {fileID: 283051941}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -305,7 +305,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 245211296}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 958897057}
+        m_TargetAssemblyTypeName: ControlGame, Assembly-CSharp
+        m_MethodName: ButtonLeftRightHighlight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &245211296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,8 +388,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1931859990}
-  - {fileID: 1302456355}
   - {fileID: 245211294}
+  - {fileID: 1302456355}
   m_Father: {fileID: 660352375}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -924,6 +936,8 @@ MonoBehaviour:
   prefabBoxKata: {fileID: 9138459540691252463, guid: 8898796b39f250248b875069cdd4c113, type: 3}
   parentKata: {fileID: 726076372}
   extraSpaceBoxKata: 40
+  indexPosisiHightlight: 0
+  cloneBoxKatas: []
 --- !u!4 &958897058
 Transform:
   m_ObjectHideFlags: 0
@@ -1052,7 +1066,7 @@ RectTransform:
   m_Children:
   - {fileID: 1164613394}
   m_Father: {fileID: 283051941}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1102,7 +1116,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1302456357}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 958897057}
+        m_TargetAssemblyTypeName: ControlGame, Assembly-CSharp
+        m_MethodName: ButtonLeftRightHighlight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1302456357
 MonoBehaviour:
   m_ObjectHideFlags: 0
