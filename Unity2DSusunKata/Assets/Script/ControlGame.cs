@@ -43,10 +43,39 @@ public class ControlGame : MonoBehaviour
 
     public GameObject[] cloneBoxKatas;
 
+    [Header("kata random")]
+
+    public int[] indexRandomPotonganKata;
+
+    public Text textPotonganKata;
+
+    public int coundKata;
+
+    public RectTransform rtPotonganKata;
+
+    public float extraspacePotonganKata;
 
     void Start()//3
     {
-        RandomImageSoal();    
+        RandomImageSoal();
+
+        GeneratePotonganKata();
+    }
+
+    void GeneratePotonganKata()
+    {
+        indexRandomPotonganKata = new int[splitStringImageSoal.Length];//create slot
+
+        for (int i = 0; i < indexRandomPotonganKata.Length; i++)
+        {
+            indexRandomPotonganKata[i] = i; //fill aray
+        }
+
+        RandomValue(indexRandomPotonganKata);//random index
+
+        textPotonganKata.text = splitStringImageSoal[indexRandomPotonganKata[coundKata]];// update ui text
+
+        rtPotonganKata.sizeDelta = new Vector2(textPotonganKata.preferredWidth + extraspacePotonganKata,rtPotonganKata.sizeDelta.y);//resize box
     }
 
     public void ButtonLeftRightHighlight()
