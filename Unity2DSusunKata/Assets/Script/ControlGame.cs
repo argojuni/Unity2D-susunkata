@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ControlGame : MonoBehaviour
 {
+    public int totalGame;
     public int gameRound;
 
     [Header("Image Question")]
@@ -47,6 +48,14 @@ public class ControlGame : MonoBehaviour
     public bool[] isKataBenar;
     public GameObject coverBlockMovement;
 
+    [Header("Panel Hasil")]
+    public GameObject panelHasil;
+    public Image ImagePanelHasil;
+    public Text textPanelHasil;
+    public float delayClosePanelHasil;
+
+    [Header("End Game")]
+    public GameObject panelEndGame;
     void Start()//3
     {        
         RandomImageSoal();
@@ -55,12 +64,36 @@ public class ControlGame : MonoBehaviour
 
         firstPositionPotonganKata = potonganKata.transform.position;//posisi awal
 
-        isKataBenar = new bool[splitStringImageSoal.Length];//create slot array
     }
 
     void Update()
     {
         MovementPotonganKata();    
+    }
+
+    void GenerateNextImage()
+    {
+        if (gameRound < totalGame - 1)
+        {
+            gameRound += 1;
+
+            GenerateImageSoal();
+        }
+        else
+        {
+            Debug.Log("Game Finish");
+
+            panelEndGame.SetActive(true);
+        }
+    }
+
+    void closePanelHasil()
+    {
+        panelHasil.SetActive(false);
+
+        GenerateNextImage();
+
+        GeneratePotonganKata();
     }
 
     public void ButtonPotonganKata()
@@ -106,6 +139,26 @@ public class ControlGame : MonoBehaviour
                     else
                     {
                         Debug.Log("Generate Level Beikutnya");
+
+                        panelHasil.SetActive(true); //active panel
+                        ImagePanelHasil.sprite = ImageSoal.sprite; //menganti sprite image panel
+                        textPanelHasil.text = stringImageSoals[indexRandomSprites[gameRound]]; //menganti text dari ui text panel hasil
+
+                        //reset kondisi game sebelumnya
+
+                        //delate clone box kata
+                        for (int i = 0; i < cloneBoxKatas.Length; i++)
+                        {
+                            Destroy(cloneBoxKatas[i]);//destroy
+                        }
+                        //reset count kata
+                        coundKata = 0;
+
+                        //reset index posisi highlight
+                        indexPosisiHightlight = 0;
+
+                        Invoke("closePanelHasil",delayClosePanelHasil);// delay function
+
                     }                   
                 }
                 else
@@ -171,18 +224,8 @@ public class ControlGame : MonoBehaviour
 
     }
 
-    void RandomImageSoal()//2
+    void GenerateImageSoal()
     {
-        indexRandomSprites = new int[spriteSoal.Length];//membuat slot secara otomatis sesuai prite yang digunakan
-        for(int i=0; i<indexRandomSprites.Length; i++)
-        {
-            indexRandomSprites[i] = i;//fill element array
-        }
-        if(isRandomSprite == true)
-        {
-            RandomValue(indexRandomSprites); //acak index
-        }
-
         ImageSoal.sprite = spriteSoal[indexRandomSprites[gameRound]];//implementasi sprite stelah di acak
 
         //Implementasi keterangan gambar
@@ -190,7 +233,7 @@ public class ControlGame : MonoBehaviour
 
         lenghtPerText = new int[splitStringImageSoal.Length];
 
-        for (int i = 0; i <lenghtPerText.Length; i++)
+        for (int i = 0; i < lenghtPerText.Length; i++)
         {
             lenghtPerText[i] = splitStringImageSoal[i].Length; //di isi dari lenght text
         }
@@ -206,20 +249,20 @@ public class ControlGame : MonoBehaviour
         cloneBoxKatas = new GameObject[splitStringImageSoal.Length];//create slot array
 
         //respon box
-        for(int i=0; i<splitStringImageSoal.Length; i++)
+        for (int i = 0; i < splitStringImageSoal.Length; i++)
         {
             GameObject cloneBoxKata = Instantiate(prefabBoxKata);//respawn
             cloneBoxKata.transform.SetParent(parentKata);//set parent
 
             cloneBoxKatas[i] = cloneBoxKata;//fill array
 
-            if(i == 0) //for change size x
+            if (i == 0) //for change size x
             {
                 Text textTerpanjang = cloneBoxKata.transform.GetChild(0).GetComponent<Text>();
 
                 textTerpanjang.text = splitStringImageSoal[indexTextTerpanjang];//get text
 
-                parentKata.GetComponent<GridLayoutGroup>().cellSize = new Vector2(textTerpanjang.preferredWidth + extraSpaceBoxKata,parentKata.GetComponent<GridLayoutGroup>().cellSize.y);
+                parentKata.GetComponent<GridLayoutGroup>().cellSize = new Vector2(textTerpanjang.preferredWidth + extraSpaceBoxKata, parentKata.GetComponent<GridLayoutGroup>().cellSize.y);
 
                 cloneBoxKata.transform.GetChild(1).gameObject.SetActive(true); //Mengaktifkan highligh pertama
             }
@@ -228,12 +271,27 @@ public class ControlGame : MonoBehaviour
 
             textCloneBoxKata.text = "";
 
-            for (int j = 0; j <splitStringImageSoal[i].Length; j++)
+            for (int j = 0; j < splitStringImageSoal[i].Length; j++)
             {
                 textCloneBoxKata.text += "_";//change text dengan _
             }
         }
-        
+        isKataBenar = new bool[splitStringImageSoal.Length];//create slot array
+    }
+
+    void RandomImageSoal()//2
+    {
+        indexRandomSprites = new int[spriteSoal.Length];//membuat slot secara otomatis sesuai prite yang digunakan
+        for(int i=0; i<indexRandomSprites.Length; i++)
+        {
+            indexRandomSprites[i] = i;//fill element array
+        }
+        if(isRandomSprite == true)
+        {
+            RandomValue(indexRandomSprites); //acak index
+        }
+
+        GenerateImageSoal();
     }
 
     void RandomValue(int[] indexRandoms)//1
